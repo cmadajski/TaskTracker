@@ -33,6 +33,22 @@ def main():
                     for x in taskList:
                         x.printTask()
 
+        elif mainInputList[0] == "comp":
+            if len(taskList) == 0:
+                print("No tasks available to complete")
+            # default case
+            elif len(mainInputList) == 1:
+                # show list of tasks so user can select one
+                print("Tasks for " + todayStr + ":")
+                for x in taskList:
+                    x.printTask()
+                # get task number from user
+                taskNum = int(input("Enter number of the completed task >> "))
+                # task rank is always one more than task index
+                taskNum -= 1
+                # update task status (flips current value)
+                taskList[taskNum].updateStatus(not taskList[taskNum].status)
+
         elif mainInputList[0] == "exit":
             mainLoopContinue = False
 

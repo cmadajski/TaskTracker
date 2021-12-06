@@ -15,6 +15,9 @@ class Task:
         self.status = False
         self.rank = inRank
 
+    def updateStatus(self, inStatus: bool):
+        self.status = inStatus
+
     def printTask(self):
         if not self.status:
             print(str(self.rank) + '. [ ] ' + self.name)
