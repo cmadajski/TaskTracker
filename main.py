@@ -48,6 +48,10 @@ def main():
                 taskNum -= 1
                 # update task status (flips current value)
                 taskList[taskNum].updateStatus(not taskList[taskNum].status)
+            elif mainInputList[1].isdigit():
+                taskNum = int(mainInputList[1]) - 1
+                # update task status (flips current value)
+                taskList[taskNum].updateStatus(not taskList[taskNum].status)
 
         elif mainInputList[0] == "exit":
             mainLoopContinue = False
