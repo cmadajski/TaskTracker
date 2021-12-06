@@ -32,6 +32,12 @@ def main():
                     for x in taskList:
                         x.printTask()
 
+        elif mainInputList[0] == "exit":
+            mainLoopContinue = False
+
+        else:
+            print("Command not recognized. Use HELP to see command options")
+
 
 if __name__ == '__main__':
     main()
