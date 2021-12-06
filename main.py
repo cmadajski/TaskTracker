@@ -21,7 +21,8 @@ def main():
             else:
                 mainInputList.remove(mainInputList[0])
                 newTaskName = " ".join(mainInputList)
-                taskList.append(Task(newTaskName))
+                newTaskRank = len(taskList) + 1
+                taskList.append(Task(newTaskName, newTaskRank))
 
         elif mainInputList[0] == "ls":
             if len(mainInputList) == 1:
