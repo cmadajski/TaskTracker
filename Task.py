@@ -1,17 +1,13 @@
-from datetime import date
 
 
 class Task:
 
     name: str
-    date: str
     status: bool
     rank: int
 
     def __init__(self, inName, inRank):
         self.name = inName
-        today = date.today()
-        self.date = today.strftime('%m/%d/%Y')
         self.status = False
         self.rank = inRank
 

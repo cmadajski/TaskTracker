@@ -6,9 +6,6 @@ from datetime import date
 def main():
     mainLoopContinue = True
     currDay = Day()
-    # taskList: list[Task] = []
-    # today = date.today()
-    # todayStr = today.strftime('%m/%d/%Y')
 
     while mainLoopContinue:
         mainInput = input(">> ")
@@ -19,7 +16,10 @@ def main():
         elif mainInputList[0] == "add":
             # default case
             if len(mainInputList) == 1:
-                print("Default case not implemented yet :(")
+                # ask user for the new task's name
+                newTaskName = input("Enter a name for the new task >> ")
+                newTaskRank = len(currDay.tasks) + 1
+                currDay.addTask(Task(newTaskName, newTaskRank))
             else:
                 mainInputList.remove(mainInputList[0])
                 newTaskName = " ".join(mainInputList)
@@ -46,7 +46,7 @@ def main():
                 for x in currDay.tasks:
                     x.printTask()
                 # get task number from user
-                taskNum = int(input("Enter number of the completed task >> "))
+                taskNum = int(input("Enter the number of the completed task >> "))
                 # task rank is always one more than task index
                 taskNum -= 1
                 # update task status (flips current value)
