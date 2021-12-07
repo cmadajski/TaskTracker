@@ -1,6 +1,6 @@
-from Task import *
-from Day import *
-from datetime import date
+from Task import Task
+from Day import Day
+from Display import *
 
 
 def main():
@@ -13,6 +13,8 @@ def main():
         # default case
         if len(mainInputList) == 0:
             print("No command entered. Try again...")
+        elif mainInputList[0] == "help":
+            helpMenu()
         elif mainInputList[0] == "add":
             # default case
             if len(mainInputList) == 1:
