@@ -19,4 +19,4 @@ class Task:
         if not self.status:
             print(str(self.rank) + '. [ ] ' + self.name)
         else:
-            print(str(self.rank) + '. [x] ' + self.name)
+            print(str(self.rank) + '. [X] ' + self.name)
