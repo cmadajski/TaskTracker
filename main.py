@@ -26,6 +26,15 @@ def main():
                 newTaskRank = len(currDay.tasks) + 1
                 currDay.addTask(Task(newTaskName, newTaskRank))
 
+        elif mainInputList[0] == "rm":
+            if len(currDay.tasks) < 1:
+                print("No tasks available to remove.")
+            # default case, remove most recent task
+            elif len(mainInputList) == 1:
+                currDay.removeTask(len(currDay.tasks) - 1)
+            else:
+                currDay.removeTask(mainInputList[1])
+
         elif mainInputList[0] == "ls":
             if len(mainInputList) == 1:
                 if len(currDay.tasks) == 0:
