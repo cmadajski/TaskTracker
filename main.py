@@ -31,9 +31,11 @@ def main():
                 print("No tasks available to remove.")
             # default case, remove most recent task
             elif len(mainInputList) == 1:
-                currDay.removeTask(len(currDay.tasks) - 1)
+                currDay.removeTask(len(currDay.tasks))
+            elif mainInputList[1].isdigit():
+                currDay.removeTask(int(mainInputList[1]))
             else:
-                currDay.removeTask(mainInputList[1])
+                print("Could not remove task. Error occurred.")
 
         elif mainInputList[0] == "ls":
             if len(mainInputList) == 1:

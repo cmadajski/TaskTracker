@@ -22,26 +22,18 @@ class Day:
             self.tasksComplete += 1
         self.numTasks += 1
 
-    def removeTask(self, inputVal):
-        # remove by index
-        if type(inputVal) is int:
-            self.numTasks -= 1
-            if self.tasks[inputVal].status is True:
-                self.tasksComplete -= 1
-            self.tasks.pop(inputVal - 1)
-        # remove by name
-        elif type(inputVal) is str:
-            # find the task in the list
-            taskIndex = -1
-            for x in self.tasks:
-                if x.name == inputVal:
-                    taskIndex = x.rank - 1
-            self.numTasks -= 1
-            if self.tasks[taskIndex].status is True:
-                self.tasksComplete -= 1
-            self.tasks.pop(taskIndex - 1)
-        else:
-            print("Unable to remove task, try again.")
+    def removeTask(self, inputVal: int):
+
+        # translate task number to index number
+        index = int(inputVal) - 1
+        self.numTasks -= 1
+        if self.tasks[index].status is True:
+            self.tasksComplete -= 1
+        self.tasks.pop(index)
+        # shift rank numbers for all tasks following the removed task
+        for x in range(index, len(self.tasks)):
+            self.tasks[x].rank -= 1
+
 
     def updateTasksComplete(self, taskStatus: bool):
         if taskStatus is True:
