@@ -2,16 +2,53 @@ from Task import Task
 from Day import Day
 from Account import Account
 from Display import *
+from datetime import date
 
 
 def main():
-    # generic account
-    person = Account('Christian', 'cmad7317@gmail.com')
+    print("TaskTracker v1.0")
 
-    mainLoopContinue = True
-    currDay = Day()
-    person.days.append(currDay)
+    # placeholder account info
+    accounts: list[Account] = []
+    accounts.append(Account("Christian", "cmad7317@gmail.com"))
+    accounts.append(Account("generic", "generic@gmail.com"))
+    accounts.append(Account("joestar", "jojo@jojo.com"))
 
+
+    # AUTHENTICATION
+    nameValid = False
+    passwordValid = False
+    loginSuccess = False
+
+    while not nameValid:
+        attemptName: str = input("Enter a username: ")
+        # search accounts to see if username exists
+        if attemptName == "exit":
+            break
+        i: int = 0
+        while i < len(accounts):
+            if accounts[i].name == attemptName:
+                nameValid = True
+                print("Name is valid")
+                i = len(accounts)
+            else:
+                i += 1
+        if not nameValid:
+            print("Name not recognized, try again.")
+
+
+
+
+    if loginSuccess is False:
+        mainLoopContinue = False
+    else:
+        mainLoopContinue = True
+
+    # determine if current day already has tasks or hasn't been created yet
+    today = date.today()
+    # serach through
+
+    # MAIN PROGRAM LOOP
     while mainLoopContinue:
         mainInput = input(">> ")
         mainInputList = mainInput.split()
