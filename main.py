@@ -10,31 +10,42 @@ def main():
 
     # placeholder account info
     accounts: list[Account] = []
-    accounts.append(Account("Christian", "cmad7317@gmail.com"))
-    accounts.append(Account("generic", "generic@gmail.com"))
-    accounts.append(Account("joestar", "jojo@jojo.com"))
+    accounts.append(Account("Christian", "cmad7317@gmail.com", "password6318!"))
+    accounts.append(Account("generic", "generic@gmail.com", "generic1234!"))
+    accounts.append(Account("joestar", "jojo@jojo.com", "jojojo"))
 
 
     # AUTHENTICATION
-    nameValid = False
+    emailValid = False
     passwordValid = False
     loginSuccess = False
 
-    while not nameValid:
-        attemptName: str = input("Enter a username: ")
+    while not emailValid:
+        attemptEmail: str = input("Enter an email: ")
         # search accounts to see if username exists
-        if attemptName == "exit":
+        if attemptEmail == "exit":
             break
         i: int = 0
+        accountIndex: int = 0
         while i < len(accounts):
-            if accounts[i].name == attemptName:
-                nameValid = True
-                print("Name is valid")
+            if accounts[i].email == attemptEmail:
+                emailValid = True
+                print("Email is valid.")
+                accountIndex = i
                 i = len(accounts)
             else:
                 i += 1
-        if not nameValid:
-            print("Name not recognized, try again.")
+        if not emailValid:
+            print("Email not recognized, try again.")
+
+    while not passwordValid:
+        attemptPassword: str = input("Enter password: ")
+        # check if password is valid
+        if accounts[accountIndex].password == attemptPassword:
+            passwordValid = True
+            print("Password valid.")
+        else:
+            print("Password not valid, try again.")
 
 
 
