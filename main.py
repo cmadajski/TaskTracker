@@ -1,11 +1,16 @@
 from Task import Task
 from Day import Day
+from Account import Account
 from Display import *
 
 
 def main():
+    # generic account
+    person = Account('Christian', 'cmad7317@gmail.com')
+
     mainLoopContinue = True
     currDay = Day()
+    person.days.append(currDay)
 
     while mainLoopContinue:
         mainInput = input(">> ")
@@ -70,6 +75,14 @@ def main():
                 # update task status (flips current value)
                 currDay.tasks[taskNum].updateStatus(not currDay.tasks[taskNum].status)
                 currDay.updateTasksComplete(currDay.tasks[taskNum].status)
+
+        elif mainInputList[0] == "acc":
+            if len(mainInputList) == 1:
+                 # print current account info
+                print("Name: ", person.name)
+                print("Email: ", person.email)
+            else:
+                print("Too many arguments, try again.")
 
         elif mainInputList[0] == "exit":
             mainLoopContinue = False
