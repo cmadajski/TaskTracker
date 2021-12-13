@@ -8,18 +8,25 @@ from datetime import date
 def main():
     print("TaskTracker v1.0")
 
-    # placeholder account info
+    # read account information from accounts.txt
     accounts: list[Account] = []
-    accounts.append(Account("Christian", "cmad7317@gmail.com", "password6318!"))
-    accounts.append(Account("generic", "generic@gmail.com", "generic1234!"))
-    accounts.append(Account("joestar", "jojo@jojo.com", "jojojo"))
+    readFile = open("accounts.txt", "r")
+    linesRead = 0
+    currLine = readFile.readline()
+    while currLine:
+        splitLine = currLine.split()
+        accounts.append(Account(splitLine[0], splitLine[1], splitLine[2]))
+        linesRead += 1
+        currLine = readFile.readline()
+    readFile.close()
+    print("Accounts loaded from memory: " + str(linesRead) + "\n")
 
     # AUTHENTICATION
     emailValid = False
     passwordValid = False
     loginSuccess = False
     mainLoopContinue = False
-    accountIndex: int
+    accountIndex: int = 0
 
     while not loginSuccess:
         # get user email and password
