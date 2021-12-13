@@ -14,45 +14,42 @@ def main():
     accounts.append(Account("generic", "generic@gmail.com", "generic1234!"))
     accounts.append(Account("joestar", "jojo@jojo.com", "jojojo"))
 
-
     # AUTHENTICATION
     emailValid = False
     passwordValid = False
     loginSuccess = False
+    exitLogin = False
+    mainLoopContinue = False
 
-    while not emailValid:
-        attemptEmail: str = input("Enter an email: ")
-        # search accounts to see if username exists
-        if attemptEmail == "exit":
+    while not loginSuccess:
+        # get user email and password
+        attemptEmail: str = input("Email: ")
+        attemptPassword: str = input("Password: ")
+        # allow for users to exit program from log-in
+        if attemptPassword == 'exit' or attemptEmail == 'exit':
             break
-        i: int = 0
-        accountIndex: int = 0
-        while i < len(accounts):
-            if accounts[i].email == attemptEmail:
-                emailValid = True
-                print("Email is valid.")
-                accountIndex = i
-                i = len(accounts)
+        # check if email is valid
+        if len(accounts) > 0:
+            for x in range(0, len(accounts) - 1):
+                if accounts[x].email == attemptEmail:
+                    emailValid = True
+                    emailIndex = x
+                    break
+        # if the email provided exists in the database
+        if emailValid is True:
+            # check if password for the given email is valid
+            if accounts[emailIndex].password == attemptPassword:
+                passwordValid = True
+                print("Log-in successful\n")
             else:
-                i += 1
-        if not emailValid:
-            print("Email not recognized, try again.")
-
-    while not passwordValid:
-        attemptPassword: str = input("Enter password: ")
-        # check if password is valid
-        if accounts[accountIndex].password == attemptPassword:
-            passwordValid = True
-            print("Password valid.")
+                print("Incorrect password, try again.\n")
+        # if the email provided does not exist in the database
         else:
-            print("Password not valid, try again.")
+            print("Email does not exist, try again.\n")
+        if emailValid and passwordValid:
+            loginSuccess = True
 
-
-
-
-    if loginSuccess is False:
-        mainLoopContinue = False
-    else:
+    if loginSuccess:
         mainLoopContinue = True
 
     # determine if current day already has tasks or hasn't been created yet
