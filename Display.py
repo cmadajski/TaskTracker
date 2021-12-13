@@ -8,5 +8,5 @@ def helpMenu():
     print("RM [taskIndex] - removes task associated with the given index")
     print("LS - list all tasks for the current day")
     print("COMP - mark/unmark a task as completed")
-    print("COMP [taskIndex] - mark/unmark a task as completed")
+    print("COMP [taskIndex] - mark/unmark a task at a specific index as completed")
     print("EXIT - terminate the program")

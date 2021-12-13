@@ -106,7 +106,10 @@ def main():
             elif len(mainInputList) == 1:
                 currDay.removeTask(len(currDay.tasks))
             elif mainInputList[1].isdigit():
-                currDay.removeTask(int(mainInputList[1]))
+                try:
+                    currDay.removeTask(int(mainInputList[1]))
+                except IndexError:
+                    print("No task at provided index.")
             else:
                 print("Could not remove task. Error occurred.")
 
