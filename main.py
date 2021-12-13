@@ -18,8 +18,8 @@ def main():
     emailValid = False
     passwordValid = False
     loginSuccess = False
-    exitLogin = False
     mainLoopContinue = False
+    accountIndex: int
 
     while not loginSuccess:
         # get user email and password
@@ -33,12 +33,12 @@ def main():
             for x in range(0, len(accounts) - 1):
                 if accounts[x].email == attemptEmail:
                     emailValid = True
-                    emailIndex = x
+                    accountIndex = x
                     break
         # if the email provided exists in the database
         if emailValid is True:
             # check if password for the given email is valid
-            if accounts[emailIndex].password == attemptPassword:
+            if accounts[accountIndex].password == attemptPassword:
                 passwordValid = True
                 print("Log-in successful\n")
             else:
@@ -52,9 +52,23 @@ def main():
     if loginSuccess:
         mainLoopContinue = True
 
+    # set the working account to the account associated to the provided email
+    currAccount = accounts[accountIndex]
+
     # determine if current day already has tasks or hasn't been created yet
     today = date.today()
-    # serach through
+    currDate = today.strftime('%m/%d/%Y')
+    dayIndex: int
+    # serach through days to see if one already exists for the current day
+    if len(currAccount.days) > 0:
+        for x in range(0, len(currAccount.days)):
+            if currAccount.days[x].date == currDate:
+                dayIndex = x
+                currDay = currAccount.days[dayIndex]
+    # if no days exist, just make a new day
+    else:
+        currAccount.days.append(Day(currDate))
+        currDay = currAccount.days[len(currAccount.days) - 1]
 
     # MAIN PROGRAM LOOP
     while mainLoopContinue:
@@ -124,8 +138,8 @@ def main():
         elif mainInputList[0] == "acc":
             if len(mainInputList) == 1:
                  # print current account info
-                print("Name: ", person.name)
-                print("Email: ", person.email)
+                print("Name: ", accounts[currDay].name)
+                print("Email: ", accounts[currDay].email)
             else:
                 print("Too many arguments, try again.")
 

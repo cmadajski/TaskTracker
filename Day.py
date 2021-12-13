@@ -9,10 +9,9 @@ class Day:
     tasksComplete: int
     numTasks: int
 
-    def __init__(self):
+    def __init__(self, inDate: str):
         self.tasks = []
-        today = date.today()
-        self.date = today.strftime('%m/%d/%Y')
+        self.date = inDate
         self.tasksComplete = 0
         self.numTasks = 0
 
@@ -33,7 +32,6 @@ class Day:
         # shift rank numbers for all tasks following the removed task
         for x in range(index, len(self.tasks)):
             self.tasks[x].rank -= 1
-
 
     def updateTasksComplete(self, taskStatus: bool):
         if taskStatus is True:
