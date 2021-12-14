@@ -1,3 +1,4 @@
 Christian cmad7317@gmail.com password6318!
-generic generic@gmail.com generic1234!
+generic generic@gmail.com generic
 joestar jojo@jojo.com jojojo
+admin admin admin

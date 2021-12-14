@@ -151,10 +151,22 @@ def main():
                 currDay.updateTasksComplete(currDay.tasks[taskNum].status)
 
         elif mainInputList[0] == "acc":
+            # default to printing current account info
             if len(mainInputList) == 1:
-                 # print current account info
-                print("Name: ", accounts[currDay].name)
-                print("Email: ", accounts[currDay].email)
+                print("Name: ", accounts[accountIndex].name)
+                print("Email: ", accounts[accountIndex].email)
+            elif mainInputList[1] == "new":
+                passwordsDontMatch = True
+                newName = input("Enter an account name >> ")
+                newEmail = input("Enter an account email >> ")
+                while passwordsDontMatch:
+                    newPassword1 = input("Enter an account password >> ")
+                    newPassword2 = input("Retype account password >> ")
+                    if newPassword2 == newPassword1:
+                        passwordsDontMatch = False
+                        print("New account for " + newName + " has been created")
+                    else:
+                        print("Passwords don't match, try again.")
             else:
                 print("Too many arguments, try again.")
 
