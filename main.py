@@ -15,7 +15,7 @@ def main():
     currLine = readFile.readline()
     while currLine:
         splitLine = currLine.split()
-        accounts.append(Account(splitLine[0], splitLine[1], splitLine[2]))
+        accounts.append(Account(splitLine[0], splitLine[1], splitLine[2], splitLine[3]))
         linesRead += 1
         currLine = readFile.readline()
     readFile.close()
@@ -155,6 +155,7 @@ def main():
             if len(mainInputList) == 1:
                 print("Name: ", accounts[accountIndex].name)
                 print("Email: ", accounts[accountIndex].email)
+            # add a new account
             elif mainInputList[1] == "new":
                 passwordsDontMatch = True
                 newName = input("Enter an account name >> ")
@@ -167,8 +168,18 @@ def main():
                         print("New account for " + newName + " has been created")
                     else:
                         print("Passwords don't match, try again.")
+            # show all accounts
+            elif mainInputList[1] == "all":
+                print("ALL ACCOUNTS ON FILE")
+                print("--------------------------------")
+                i = 1
+                for x in range(0, len(accounts)):
+                    print(str(i) + ".\tName: " + accounts[x].name)
+                    print("\tEmail: " + accounts[x].email)
+                    print("--------------------------------")
+                    i += 1
             else:
-                print("Too many arguments, try again.")
+                print("Command not valid, try again.")
 
         elif mainInputList[0] == "exit":
             mainLoopContinue = False

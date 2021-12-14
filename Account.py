@@ -14,10 +14,9 @@ class Account:
     # list of Day objects
     days: list[Day]
 
-    def __init__(self, inName: str, inEmail: str, inPass: str):
+    def __init__(self, inName: str, inEmail: str, inPass: str, inJoin: str):
         self.name = inName
         self.email = inEmail
         self.password = inPass
-        today = date.today()
-        self.date_joined = today.strftime("%m/%d/%Y")
+        self.date_joined = inJoin
         self.days = []
