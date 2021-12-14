@@ -68,15 +68,20 @@ def main():
     dayIndex: int
     # serach through days to see if one already exists for the current day
     if len(currAccount.days) > 0:
+        dayFound = False
         for x in range(0, len(currAccount.days)):
             if currAccount.days[x].date == currDate:
+                dayFound = True
                 dayIndex = x
                 currDay = currAccount.days[dayIndex]
+        # if no day is found, then make a new day
+        if dayFound:
+            currAccount.days.append(Day(currDate))
+            currDay = currAccount.days[len(currAccount.days) - 1]
     # if no days exist, just make a new day
     else:
         currAccount.days.append(Day(currDate))
-        currDay = currAccount.days[len(currAccount.days) - 1]
-
+        currDay = currAccount.days[0]
     # MAIN PROGRAM LOOP
     while mainLoopContinue:
         mainInput = input(">> ")
