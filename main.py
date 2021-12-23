@@ -25,42 +25,11 @@ def main():
     emailValid = False
     passwordValid = False
     loginSuccess = False
-    mainLoopContinue = False
+    mainLoopContinue = True
     accountIndex: int = 0
 
-    while not loginSuccess:
-        # get user email and password
-        attemptEmail: str = input("Email: ")
-        attemptPassword: str = input("Password: ")
-        # allow for users to exit program from log-in
-        if attemptPassword == 'exit' or attemptEmail == 'exit':
-            break
-        # check if email is valid
-        if len(accounts) > 0:
-            for x in range(0, len(accounts) - 1):
-                if accounts[x].email == attemptEmail:
-                    emailValid = True
-                    accountIndex = x
-                    break
-        # if the email provided exists in the database
-        if emailValid is True:
-            # check if password for the given email is valid
-            if accounts[accountIndex].password == attemptPassword:
-                passwordValid = True
-                print("Log-in successful\n")
-            else:
-                print("Incorrect password, try again.\n")
-        # if the email provided does not exist in the database
-        else:
-            print("Email does not exist, try again.\n")
-        if emailValid and passwordValid:
-            loginSuccess = True
-
-    if loginSuccess:
-        mainLoopContinue = True
-
-    # set the working account to the account associated to the provided email
-    currAccount = accounts[accountIndex]
+    # set the working account to default
+    currAccount = accounts[0]
 
     # determine if current day already has tasks or hasn't been created yet
     today = date.today()

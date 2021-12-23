@@ -1,4 +1,2 @@
+default default default 00/00/0000
 Christian cmad7317@gmail.com password6318! 12/05/2021
-generic generic@gmail.com generic 00/00/0000
-admin admin admin 00/00/0000
-joestar jojo@jojo.com jojojo 01/01/2022
