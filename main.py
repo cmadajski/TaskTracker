@@ -150,6 +150,36 @@ def main():
             else:
                 print("Command not valid, try again.")
 
+        # command for logging into an account
+        elif mainInputList[0] == "login":
+            if len(mainInputList) == 1:
+                # get an email string input
+                emailValid = False
+                passwordValid = False
+                tempAccount: Account = None
+                emailAttempt = input("Enter an email >> ")
+                passwordAttempt = input("Enter a password >> ")
+                # search through accounts for
+                for x in accounts:
+                    if x.email == emailAttempt:
+                        tempAccount = x
+                        emailValid = True
+                        break
+                # only search for password if account match is found
+                if emailValid:
+                    # check if password matches account
+                    if tempAccount.password == passwordAttempt:
+                        passwordValid = True
+                    if passwordValid:
+                        print(f'Login Success: switched from {currAccount.name} to {tempAccount.name}.')
+                        currAccount = tempAccount
+                    else:
+                        print('Account password not valid.')
+                else:
+                    print('Account email not valid.')
+            else:
+                print('No functions available yet, WIP.')
+
         elif mainInputList[0] == "exit":
             mainLoopContinue = False
 
