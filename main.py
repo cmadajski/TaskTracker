@@ -126,15 +126,17 @@ def main():
                 print("Email: ", accounts[accountIndex].email)
             # add a new account
             elif mainInputList[1] == "new":
-                passwordsDontMatch = True
+                passwordsMatch = False
                 newName = input("Enter an account name >> ")
                 newEmail = input("Enter an account email >> ")
-                while passwordsDontMatch:
+                while not passwordsMatch:
                     newPassword1 = input("Enter an account password >> ")
                     newPassword2 = input("Retype account password >> ")
                     if newPassword2 == newPassword1:
-                        passwordsDontMatch = False
-                        print("New account for " + newName + " has been created")
+                        passwordsMatch = True
+                        newAccount = Account(newName, newEmail, newPassword1, currDate)
+                        accounts.append(newAccount)
+                        print(f"New account for {newAccount.name} has been created")
                     else:
                         print("Passwords don't match, try again.")
             # show all accounts
