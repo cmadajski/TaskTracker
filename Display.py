@@ -2,6 +2,8 @@
 
 def helpMenu():
     print("LIST OF COMMON COMMANDS:")
+    print("ACC - shows current account being used for task tracking")
+    print("LOGIN - allows current user to switch to a different account")
     print("ADD - adds a new task for the day")
     print("ADD [taskName] - adds a new task for the day")
     print("RM - removes the most recently made task")
