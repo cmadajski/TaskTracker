@@ -4,7 +4,7 @@ from Task import Task
 
 class Day:
 
-    tasks: list[Task]
+    tasks: list
     date: str
     tasksComplete: int
     numTasks: int

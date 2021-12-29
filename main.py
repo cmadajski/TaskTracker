@@ -1,56 +1,40 @@
 from Task import Task
 from Day import Day
-from Account import Account
+from User import User
 from Display import *
 from datetime import date
 
 
 def main():
-    print("TaskTracker v1.0")
+    print("TaskTracker v1.1")
 
-    # read account information from accounts.txt
-    accounts: list[Account] = []
-    readFile = open("accounts.txt", "r")
-    linesRead = 0
-    currLine = readFile.readline()
-    while currLine:
-        splitLine = currLine.split()
-        accounts.append(Account(splitLine[0], splitLine[1], splitLine[2], splitLine[3]))
-        linesRead += 1
-        currLine = readFile.readline()
-    readFile.close()
-    print("Accounts loaded from memory: " + str(linesRead) + "\n")
-
-    # AUTHENTICATION
-    emailValid = False
-    passwordValid = False
-    loginSuccess = False
+    # removed account functionality, only supports single user now
+    currentUser = User('Christian Madajski', 'cmad7317@tutanota.com')
     mainLoopContinue = True
-    accountIndex: int = 0
-
-    # set the working account to default
-    currAccount = accounts[0]
 
     # determine if current day already has tasks or hasn't been created yet
     today = date.today()
-    currDate = today.strftime('%m/%d/%Y')
+    currentDate = today.strftime('%m/%d/%Y')
     dayIndex: int
     # serach through days to see if one already exists for the current day
-    if len(currAccount.days) > 0:
-        dayFound = False
-        for x in range(0, len(currAccount.days)):
-            if currAccount.days[x].date == currDate:
-                dayFound = True
-                dayIndex = x
-                currDay = currAccount.days[dayIndex]
-        # if no day is found, then make a new day
-        if dayFound:
-            currAccount.days.append(Day(currDate))
-            currDay = currAccount.days[len(currAccount.days) - 1]
-    # if no days exist, just make a new day
+    if len(currentUser.days) < 1:
+        # make a new Day instance
+        currentUser.days.append(Day(currentDate))
+        dayIndex = 0
+        print(f"Created new day instance for {currentUser.days[dayIndex].date} (from empty list)")
     else:
-        currAccount.days.append(Day(currDate))
-        currDay = currAccount.days[0]
+        dayExists: bool = False
+        for count, value in enumerate(currentUser.days):
+            if value.date == currentDate:
+                dayIndex = count
+                dayExists = True
+        if dayExists:
+            print(f"Accessed existing day instance for {currentUser.days[dayIndex].date}")
+        else:
+            # append new day instance to the end of the days list
+            currentUser.days.append(Day(currentDate))
+            print(f"Created new day instance for {currentUser.days[dayIndex].date} (added to existing list)")
+
     # MAIN PROGRAM LOOP
     while mainLoopContinue:
         mainInput = input(">> ")
@@ -65,23 +49,24 @@ def main():
             if len(mainInputList) == 1:
                 # ask user for the new task's name
                 newTaskName = input("Enter a name for the new task >> ")
-                newTaskRank = len(currDay.tasks) + 1
-                currDay.addTask(Task(newTaskName, newTaskRank))
+                newTaskRank = len(currentUser.days.tasks) + 1
+                currentUser.days[dayIndex].addTask(Task(newTaskName, newTaskRank))
             else:
                 mainInputList.remove(mainInputList[0])
                 newTaskName = " ".join(mainInputList)
-                newTaskRank = len(currDay.tasks) + 1
-                currDay.addTask(Task(newTaskName, newTaskRank))
+                newTaskRank = len(currentUser.days[dayIndex].tasks) + 1
+                currentUser.days[dayIndex].addTask(Task(newTaskName, newTaskRank))
 
         elif mainInputList[0] == "rm":
-            if len(currDay.tasks) < 1:
+            if len(currentUser.days[dayIndex].tasks) < 1:
                 print("No tasks available to remove.")
             # default case, remove most recent task
             elif len(mainInputList) == 1:
-                currDay.removeTask(len(currDay.tasks))
+                currentUser.days[dayIndex].removeTask(len(currentUser.days[dayIndex].tasks))
+
             elif mainInputList[1].isdigit():
                 try:
-                    currDay.removeTask(int(mainInputList[1]))
+                    currentUser.days[dayIndex].removeTask(int(mainInputList[1]))
                 except IndexError:
                     print("No task at provided index.")
             else:
@@ -89,104 +74,54 @@ def main():
 
         elif mainInputList[0] == "ls":
             if len(mainInputList) == 1:
-                if len(currDay.tasks) == 0:
+                if len(currentUser.days[dayIndex].tasks) == 0:
                     print("There are currently no tasks for the day.")
                 else:
-                    print(str(currDay.tasksComplete) + "/" + str(len(currDay.tasks)) + " tasks completed for "
-                          + currDay.date + " :")
-                    for x in currDay.tasks:
+                    print(str(currentUser.days[dayIndex].tasksComplete) + "/" + str(len(currentUser.days[dayIndex].tasks)) + " tasks completed for "
+                          + currentUser.days[dayIndex].date + " :")
+                    for x in currentUser.days[dayIndex].tasks:
                         x.printTask()
+            else:
+                print("Command not recognized.")
 
         elif mainInputList[0] == "comp":
-            if len(currDay.tasks) == 0:
+            if len(currentUser.days[dayIndex].tasks) == 0:
                 print("No tasks available to complete")
             # default case
             elif len(mainInputList) == 1:
                 # show list of tasks so user can select one
-                print("Tasks for " + currDay.date + ":")
-                for x in currDay.tasks:
+                print("Tasks for " + currentUser.days[dayIndex].date + ":")
+                for x in currentUser.days[dayIndex].tasks:
                     x.printTask()
                 # get task number from user
                 taskNum = int(input("Enter the number of the completed task >> "))
                 # task rank is always one more than task index
                 taskNum -= 1
                 # update task status (flips current value)
-                currDay.tasks[taskNum].updateStatus(not currDay.tasks[taskNum].status)
-                currDay.updateTasksComplete(currDay.tasks[taskNum].status)
+                currentUser.days[dayIndex].tasks[taskNum].updateStatus(not currentUser.days[dayIndex].tasks[taskNum].status)
+                currentUser.days[dayIndex].updateTasksComplete(currentUser.days[dayIndex].tasks[taskNum].status)
             elif mainInputList[1].isdigit():
                 taskNum = int(mainInputList[1]) - 1
                 # update task status (flips current value)
-                currDay.tasks[taskNum].updateStatus(not currDay.tasks[taskNum].status)
-                currDay.updateTasksComplete(currDay.tasks[taskNum].status)
+                currentUser.days[dayIndex].tasks[taskNum].updateStatus(not currentUser.days[dayIndex].tasks[taskNum].status)
+                currentUser.days[dayIndex].updateTasksComplete(currentUser.days[dayIndex].tasks[taskNum].status)
 
-        elif mainInputList[0] == "acc":
+        elif mainInputList[0] == "user":
             # default to printing current account info
             if len(mainInputList) == 1:
-                print("Name: ", accounts[accountIndex].name)
-                print("Email: ", accounts[accountIndex].email)
-            # add a new account
-            elif mainInputList[1] == "new":
-                passwordsMatch = False
-                newName = input("Enter an account name >> ")
-                newEmail = input("Enter an account email >> ")
-                while not passwordsMatch:
-                    newPassword1 = input("Enter an account password >> ")
-                    newPassword2 = input("Retype account password >> ")
-                    if newPassword2 == newPassword1:
-                        passwordsMatch = True
-                        newAccount = Account(newName, newEmail, newPassword1, currDate)
-                        accounts.append(newAccount)
-                        print(f"New account for {newAccount.name} has been created")
-                    else:
-                        print("Passwords don't match, try again.")
+                print(f"Name: {currentUser.name}")
+                print(f"Email: {currentUser.email}")
             # show all accounts
-            elif mainInputList[1] == "all":
-                print("ALL ACCOUNTS ON FILE")
-                print("--------------------------------")
-                i = 1
-                for x in range(0, len(accounts)):
-                    print(str(i) + ".\tName: " + accounts[x].name)
-                    print("\tEmail: " + accounts[x].email)
-                    print("--------------------------------")
-                    i += 1
             else:
                 print("Command not valid, try again.")
-
-        # command for logging into an account
-        elif mainInputList[0] == "login":
-            if len(mainInputList) == 1:
-                # get an email string input
-                emailValid = False
-                passwordValid = False
-                tempAccount: Account = None
-                emailAttempt = input("Enter an email >> ")
-                passwordAttempt = input("Enter a password >> ")
-                # search through accounts for
-                for x in accounts:
-                    if x.email == emailAttempt:
-                        tempAccount = x
-                        emailValid = True
-                        break
-                # only search for password if account match is found
-                if emailValid:
-                    # check if password matches account
-                    if tempAccount.password == passwordAttempt:
-                        passwordValid = True
-                    if passwordValid:
-                        print(f'Login Success: switched from {currAccount.name} to {tempAccount.name}.')
-                        currAccount = tempAccount
-                    else:
-                        print('Account password not valid.')
-                else:
-                    print('Account email not valid.')
-            else:
-                print('No functions available yet, WIP.')
 
         elif mainInputList[0] == "exit":
             mainLoopContinue = False
 
         else:
             print("Command not recognized. Use HELP to see command options")
+
+    # write task data to new file
 
 
 if __name__ == '__main__':
