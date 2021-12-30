@@ -61,8 +61,10 @@ def main():
             if len(mainInputList) == 1:
                 # ask user for the new task's name
                 newTaskName = input("Enter a name for the new task >> ")
-                newTaskRank = len(currentUser.days.tasks) + 1
+                newTaskRank = len(currentUser.days[dayIndex].tasks) + 1
                 currentUser.days[dayIndex].addTask(Task(newTaskName, newTaskRank))
+            elif mainInputList[1] == 'help':
+                add_help()
             else:
                 mainInputList.remove(mainInputList[0])
                 newTaskName = " ".join(mainInputList)
@@ -71,7 +73,10 @@ def main():
 
         elif mainInputList[0] == "rm":
             if len(currentUser.days[dayIndex].tasks) < 1:
-                print("No tasks available to remove.")
+                if len(mainInputList) > 1 and mainInputList[1] == 'help':
+                    rm_help()
+                else:
+                    print("No tasks available to remove.")
             # default case, remove most recent task
             elif len(mainInputList) == 1:
                 currentUser.days[dayIndex].removeTask(len(currentUser.days[dayIndex].tasks))
