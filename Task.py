@@ -3,20 +3,22 @@
 class Task:
 
     name: str
-    status: bool
+    completed: bool
     rank: int
 
     def __init__(self, inName, inRank):
         self.name = inName
-        self.status = False
+        self.completed = False
         self.rank = inRank
 
-    def updateStatus(self, inStatus: bool):
-        self.status = inStatus
+    def setCompleted(self, isComplete: bool):
+        self.completed = isComplete
 
+    def setName(self, newName: str):
+        self.name = newName
 
     def printTask(self):
-        if not self.status:
-            print(str(self.rank) + '. [ ] ' + self.name)
+        if not self.completed:
+            print(f"{self.rank}. [ ] {self.name}")
         else:
-            print(str(self.rank) + '. [X] ' + self.name)
+            print(f"{self.rank}. [X] {self.name}")

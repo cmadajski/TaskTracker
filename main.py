@@ -12,28 +12,40 @@ def main():
     currentUser = User('Christian Madajski', 'cmad7317@tutanota.com')
     mainLoopContinue = True
 
-    # determine if current day already has tasks or hasn't been created yet
+    # find today's date
     today = date.today()
+    # format date as MM/DD/YYYY
     currentDate = today.strftime('%m/%d/%Y')
-    dayIndex: int
-    # serach through days to see if one already exists for the current day
+    # dayIndex holds the index value pointing to the current day instance
+    dayIndex: int = -1
+
+    # if there are no day instances, just create a new instance
     if len(currentUser.days) < 1:
         # make a new Day instance
+        print("No day instances exist for the current user.")
         currentUser.days.append(Day(currentDate))
         dayIndex = 0
-        print(f"Created new day instance for {currentUser.days[dayIndex].date} (from empty list)")
+        print(f"Created new day instance for {currentUser.days[dayIndex].date}")
     else:
         dayExists: bool = False
+        # search to see if an instance for the current day already exists
         for count, value in enumerate(currentUser.days):
             if value.date == currentDate:
                 dayIndex = count
+                print(f"dayIndex = {dayIndex}")
                 dayExists = True
         if dayExists:
-            print(f"Accessed existing day instance for {currentUser.days[dayIndex].date}")
+            print(f"Day already exists for date: {currentUser.days[dayIndex].date}, accessing previous data")
+            print(f"dayIndex = {dayIndex}")
+            currentUser.days[dayIndex].printTasks()
         else:
             # append new day instance to the end of the days list
             currentUser.days.append(Day(currentDate))
-            print(f"Created new day instance for {currentUser.days[dayIndex].date} (added to existing list)")
+            dayIndex = len(currentUser.days) - 1
+            print(f"No day instance exists for date: {currentUser.days[dayIndex].date}, creating a new instance.")
+            print(f"Size of days = {len(currentUser.days)}")
+            print(f"dayIndex = {dayIndex}")
+            currentUser.days[1].printTasks()
 
     # MAIN PROGRAM LOOP
     while mainLoopContinue:
@@ -77,8 +89,8 @@ def main():
                 if len(currentUser.days[dayIndex].tasks) == 0:
                     print("There are currently no tasks for the day.")
                 else:
-                    print(str(currentUser.days[dayIndex].tasksComplete) + "/" + str(len(currentUser.days[dayIndex].tasks)) + " tasks completed for "
-                          + currentUser.days[dayIndex].date + " :")
+                    print(f"{currentUser.days[dayIndex].tasksComplete}/{len(currentUser.days[dayIndex].tasks)} tasks "
+                          f"completed for {currentUser.days[dayIndex].date}:")
                     for x in currentUser.days[dayIndex].tasks:
                         x.printTask()
             else:
@@ -98,13 +110,13 @@ def main():
                 # task rank is always one more than task index
                 taskNum -= 1
                 # update task status (flips current value)
-                currentUser.days[dayIndex].tasks[taskNum].updateStatus(not currentUser.days[dayIndex].tasks[taskNum].status)
-                currentUser.days[dayIndex].updateTasksComplete(currentUser.days[dayIndex].tasks[taskNum].status)
+                currentUser.days[dayIndex].tasks[taskNum].setCompleted(not currentUser.days[dayIndex].tasks[taskNum].completed)
+                currentUser.days[dayIndex].setCompleted(currentUser.days[dayIndex].tasks[taskNum].completed)
             elif mainInputList[1].isdigit():
                 taskNum = int(mainInputList[1]) - 1
                 # update task status (flips current value)
-                currentUser.days[dayIndex].tasks[taskNum].updateStatus(not currentUser.days[dayIndex].tasks[taskNum].status)
-                currentUser.days[dayIndex].updateTasksComplete(currentUser.days[dayIndex].tasks[taskNum].status)
+                currentUser.days[dayIndex].tasks[taskNum].setCompleted(not currentUser.days[dayIndex].tasks[taskNum].completed)
+                currentUser.days[dayIndex].setCompleted(currentUser.days[dayIndex].tasks[taskNum].completed)
 
         elif mainInputList[0] == "user":
             # default to printing current account info
